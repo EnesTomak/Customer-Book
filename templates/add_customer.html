@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <title>Yeni Müşteri Ekle</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('add_customer') }}">Add New Customer</a></li>
+            <li><a href="{{ url_for('index') }}">Select Customer</a></li>
+            <li><a href="{{ url_for('cash_book') }}">Cash Book</a></li>
+            <li><a href="{{ url_for('cash_sales') }}">Cash Sales</a></li>
+        </ul>
+    </nav>
+
+    <h1>Add New Customer</h1>
+    <form action="{{ url_for('add_customer') }}" method="post" enctype="multipart/form-data">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required><br>
+
+        <label for="registration_date">Registration Date:</label>
+        <input type="date" id="registration_date" name="registration_date" required><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required><br>
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br>
+
+        <label for="opening_balance">Opening_Balance:</label>
+        <input type="number" id="opening_balance" name="opening_balance" step="0.01" required><br>
+
+        <input class="submit" type="submit" value="Add">
+    </form>
+</body>
+</html>

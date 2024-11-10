@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Cash Sales</title>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('add_customer') }}">Add New Customer</a></li>
+            <li><a href="{{ url_for('index') }}">Select Customer</a></li>
+            <li><a href="{{ url_for('cash_book') }}">Cash Book</a></li>
+            <li><a href="{{ url_for('cash_sales') }}">Cash Sales</a></li>
+        </ul>
+    </nav>
+
+    <h1>Cash Sales</h1>
+
+    <h2>Add Cash Sale</h2>
+    <form action="{{ url_for('cash_sales') }}" method="post">
+        <label for="transactionDate">Transaction Date:</label>
+        <input type="date" id="transactionDate" name="transactionDate" required>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required>
+        <label for="productType">Product Type:</label>
+        <select id="productType" name="productType" required>
+            <option value="">Select a product type</option>
+            <option value="Ready Curtain">Ready Curtain</option>
+            <option value="Sunshade">Sunshade</option>
+            <option value="Renovation">Renovation</option>
+            <option value="Accessory">Accessory</option>
+        </select>
+
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+            <option value="">Select a payment method</option>
+            <option value="CreditCard">Credit Card</option>
+            <option value="BankTransfer">Bank Transfer</option>
+            <option value="Cash">Cash</option>
+        </select>
+
+        <button type="submit">Add Sale</button>
+    </form>
+
+    <h2>Sales Summary</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Type</th>
+                <th>Total Quantity</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in summary_data %}
+            <tr>
+                <td>{{ row['product_type'] }}</td>
+                <td>{{ row['total_quantity'] }}</td>
+                <td>{{ row['total_amount'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    <a href="{{ url_for('index') }}">Back to Main</a>
+</body>
+</html>

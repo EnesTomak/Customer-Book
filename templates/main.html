@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <title>Customer Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('add_customer') }}">Add New Customer</a></li>
+            <li><a href="{{ url_for('index') }}">Select Customer</a></li>
+            <li><a href="{{ url_for('cash_book') }}">Cash Book</a></li>
+            <li><a href="{{ url_for('cash_sales') }}">Cash Sales</a></li>
+        </ul>
+    </nav>
+
+    <h1>Customers</h1>
+
+    <!-- Search Input -->
+    <form method="get" action="{{ url_for('search_customers') }}">
+        <input type="text" id="firstNameInput" name="first_name" placeholder="Search by name">
+        <input type="text" id="lastNameInput" name="last_name" placeholder="Search by surname">
+        <button type="submit">search</button>
+    </form>
+
+    <div class="table-container">
+        <table id="customersTable" border="1">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Registration Date</th>
+                <th>Phone</th>
+                <th>Image</th>
+                <th>Opening Balance</th>
+                <th>Select</th>
+            </tr>
+            {% for customer in customers %}
+            <tr>
+                <form method="post" action="{{ url_for('credit_sales') }}">
+                    <td>{{ customer['id'] }}</td>
+                    <td>{{ customer['first_name'] }}</td>
+                    <td>{{ customer['last_name'] }}</td>
+                    <td>{{ customer['registration_date'] }}</td>
+                    <td>{{ customer['phone'] }}</td>
+                    <td>
+                        {% if customer.image %}
+                            <img src="{{ url_for('show_image', customer_id=customer.id) }}" width="100" height="100" onclick="window.open(this.src, '_blank')"/>
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ customer['opening_balance'] }}</td>
+                    <td>
+                        <input type="hidden" name="first_name" value="{{ customer['first_name'] }}">
+                        <input type="hidden" name="last_name" value="{{ customer['last_name'] }}">
+                        <input type="hidden" name="phone" value="{{ customer['phone'] }}">
+                        <button type="submit">Seç</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

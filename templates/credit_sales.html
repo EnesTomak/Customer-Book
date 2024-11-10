@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Sale</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('add_customer') }}">Add New Customer</a></li>
+            <li><a href="{{ url_for('index') }}">Select Customer</a></li>
+            <li><a href="{{ url_for('cash_book') }}">Cash Book</a></li>
+            <li><a href="{{ url_for('cash_sales') }}">Cash Sales</a></li>
+        </ul>
+    </nav>
+
+    <h1>{{ customer['first_name'] }} {{ customer['last_name'] }} for Credit Sales </h1>
+
+    <h2>Payment Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction Date</th>
+                <th>Amount</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ payment['transaction_date_time'] }}</td>
+                <td>{{ payment['amount'] }}</td>
+                <td>{{ payment['description'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Total Paid: {{ total_paid }}</h3>
+    <h3>Remaining Debt: {{ remaining_debt }}</h3>
+
+    <hr>
+
+    <h2>Add New Payment</h2>
+    <form action="{{ url_for('add_payment') }}" method="POST">
+        <input type="hidden" name="creditSaleFirstName" value="{{ customer['first_name'] }}">
+        <input type="hidden" name="creditSaleLastName" value="{{ customer['last_name'] }}">
+
+        <label for="transactionDateTime">Transaction Date</label>
+        <input type="datetime-local" id="transactionDateTime" name="transactionDateTime" required>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required>
+
+        <label for="paymentType">Payment Type:</label>
+        <select id="paymentType" name="paymentType" required>
+            <option value="cash">Cash</option>
+            <option value="credit_card">Credit Card</option>
+            <option value="bank_transfer">Bank Transfer</option>
+        </select>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+
+        <button type="submit">Add Payment</button>
+    </form>
+
+    <!-- Add the Print button -->
+    <a href="{{ url_for('print_customer', customer_id=customer['id']) }}" target="_blank">
+        <button type="button">Print Customer Info</button>
+    </a>
+
+
+
+</body>
+</html>

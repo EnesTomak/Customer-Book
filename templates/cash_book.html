@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('add_customer') }}">Add New Customer</a></li>
+            <li><a href="{{ url_for('index') }}">Select Customer</a></li>
+            <li><a href="{{ url_for('cash_book') }}">Cash Book</a></li>
+            <li><a href="{{ url_for('cash_sales') }}">Cash Sales</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Cash Book</h1>
+
+        <form method="get" action="{{ url_for('cash_book') }}" class="date-filter-form">
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date">
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date">
+            </div>
+            <button type="submit">Filter</button>
+        </form>
+
+        <h2>General Information</h2>
+        <div class="summary">
+            <h3>Total Revenue: {{ total_revenue }}</h3>
+            <h3>Total Remaining Debt {{ total_remaining_debt }}</h3>
+        </div>
+
+        <h2>Remaining Debts</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Remaining Debt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in remaining_credits_data %}
+                <tr>
+                    <td>{{ row.first_name }}</td>
+                    <td>{{ row.last_name }}</td>
+                    <td>{{ row.remaining_debt }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>
